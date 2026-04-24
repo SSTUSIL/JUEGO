@@ -22,35 +22,38 @@
     endTime: null
   };
 
-  // URL generada por Google Apps Script (Deberás reemplazarla cuando la tengas)
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxq4joHmQ80d9lpEncDhPE6UZVdiHDh_oTjVOReWYJW817kN4S9mkKOUwftkrMG4vgq/exec";
+  // Inicialización Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyChW_w7eNmxHbI2R5TiNE6wnK9iPU44EXk",
+    authDomain: "escape-room-usil.firebaseapp.com",
+    projectId: "escape-room-usil",
+    storageBucket: "escape-room-usil.firebasestorage.app",
+    messagingSenderId: "90196405125",
+    appId: "1:90196405125:web:eff208742750546370f2ec"
+  };
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-  // Función para enviar a Google Sheets
+
+  // Función para enviar a Firebase Firestore
   function enviarDatosASheets() {
-    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "PEGAR_AQUI_LA_URL") {
-      console.warn("No se configuró la URL de Google Sheets.");
-      return;
-    }
-
     try {
       const durationMs = state.endTime - state.startTime;
       const m = Math.floor(durationMs / 60000);
-      const totalSeconds = (durationMs / 1000).toFixed(2); // Ej: 125.45
-      const durationStr = `${m}m ${(durationMs % 60000 / 1000).toFixed(2)}s (Total: ${totalSeconds} seg)`;
+      const s = Math.floor((durationMs % 60000) / 1000);
+      const tiempoTotal = `${m}m ${s}s`;
 
-      const formData = new FormData();
-      formData.append("nombre", state.teamName);
-      formData.append("dni", state.teamDni);
-      formData.append("fechaInicio", state.startTime.toLocaleString());
-      formData.append("fechaFin", state.endTime.toLocaleString());
-      formData.append("tiempoTotal", durationStr);
+      firebase.firestore().collection("registros").add({
+        nombre:      state.teamName || "Sin nombre",
+        dni:         state.teamDni  || "Sin DNI",
+        fechaInicio: state.startTime.toLocaleString("es-PE"),
+        fechaFin:    state.endTime.toLocaleString("es-PE"),
+        tiempoTotal: tiempoTotal,
+        fecha:       state.endTime.toLocaleDateString("es-PE"),
+        timestamp:   firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(() => console.log("✅ Guardado en Firebase."))
+      .catch(err => console.error("❌ Error Firebase:", err));
 
-      fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData
-      }).then(() => console.log("Datos enviados a Sheets con éxito."))
-        .catch(err => console.error("Error al enviar datos:", err));
     } catch(e) {
       console.error(e);
     }
@@ -747,13 +750,19 @@
           const url = canvas.toDataURL("image/png");
           const a = document.createElement("a");
           a.href = url;
-          a.download = `Certificado_SST_Carla_${(state.teamName || "Participante").replace(/\s+/g, '_')}.png`;
+          a.download = `Certificado_SSO_Carla_${(state.teamName || "Participante").replace(/\s+/g, '_')}.png`;
           a.click();
 
           btn.innerHTML = originalText;
           btn.disabled = false;
         } catch (err) {
-          showGameAlert("Error: Tu navegador bloquea la descarga en modo local. Estará activo en plataforma.");
+          // Fallback: descargar versión sin nombre si falla el canvas por restricciones locales
+          const aFallback = document.createElement("a");
+          aFallback.href = "CERTIFICADO/DIPLOMA.png";
+          aFallback.download = `Certificado_SSO_Carla_Base.png`;
+          aFallback.click();
+          
+          showGameAlert("Aviso: Por seguridad local, se descargó el certificado base.");
           btn.innerHTML = originalText;
           btn.disabled = false;
         }

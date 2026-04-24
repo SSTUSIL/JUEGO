@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="USIL_ESCAPE_ROOM_SST" version="1.0"
+<manifest identifier="USIL_ESCAPE_ROOM_SSO" version="1.0"
   xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
   xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -14,9 +14,9 @@
 
   <organizations default="ORG-1">
     <organization identifier="ORG-1">
-      <title>El Caso Luis R. — Escape Room SST</title>
+      <title>El Caso Luis R. — Escape Room SSO</title>
       <item identifier="ITEM-1" identifierref="RES-1" isvisible="true">
-        <title>El Caso Luis R. — Escape Room SST - USIL</title>
+        <title>El Caso Luis R. — Escape Room SSO - USIL</title>
       </item>
     </organization>
   </organizations>
