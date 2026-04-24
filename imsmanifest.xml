@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="USIL_ESCAPE_ROOM_SST" version="1.0"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+  http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd
+  http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+
+  <organizations default="ORG-1">
+    <organization identifier="ORG-1">
+      <title>El Caso Luis R. — Escape Room SST</title>
+      <item identifier="ITEM-1" identifierref="RES-1" isvisible="true">
+        <title>El Caso Luis R. — Escape Room SST - USIL</title>
+      </item>
+    </organization>
+  </organizations>
+
+  <resources>
+    <resource
+      identifier="RES-1"
+      type="webcontent"
+      adlcp:scormtype="sco"
+      href="index.html">
+      <file href="index.html" />
+      <file href="styles.css" />
+      <file href="app.js" />
+      <file href="scorm.js" />
+      <file href="assets/pipwerks.scorm.min.js" />
+      <file href="assets/logo.png" />
+      <file href="assets/hero_bg.png" />
+      <file href="assets/luis_desk.png" />
+      <file href="assets/ergonomic.png" />
+      <file href="assets/stress_desk.png" />
+      <file href="assets/mental_health.png" />
+      <file href="assets/dark_room.png" />
+      <file href="assets/medical.png" />
+      <file href="assets/breathe.png" />
+    </resource>
+  </resources>
+</manifest>
